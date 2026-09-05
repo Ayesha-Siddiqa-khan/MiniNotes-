@@ -18,7 +18,7 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - run: python -c "from app import app; print('App import OK')"
+      - run: python -c "from app import app; print('Import check OK')"
 
   deploy:
     needs: test
