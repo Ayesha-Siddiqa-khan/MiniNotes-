@@ -51,6 +51,12 @@ jobs:
         run: |
           echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 -d > /tmp/kubeconfig
           export KUBECONFIG=/tmp/kubeconfig
+          ECR_PASSWORD=$(aws ecr get-login-password --region ${{ secrets.AWS_REGION }})
+          kubectl create secret docker-registry ecr-secret \
+            --docker-server=${{ secrets.ECR_REGISTRY }} \
+            --docker-username=AWS \
+            --docker-password="$ECR_PASSWORD" \
+            -n mininotes --dry-run=client -o yaml | kubectl apply -f -
           kubectl set image deployment/mininotes \
             mininotes=${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }} \
             -n mininotes
