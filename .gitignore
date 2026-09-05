@@ -3,3 +3,7 @@ __pycache__/
 *.db
 .env
 data/
+.terraform/
+*.tfstate
+*.tfstate.*
+tfplan
