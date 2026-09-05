@@ -46,8 +46,6 @@ jobs:
           tags: |
             ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
             ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
       - name: Deploy to Kubernetes
         run: |
