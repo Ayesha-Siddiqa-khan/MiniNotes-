@@ -44,7 +44,7 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:${{ github.run_number }}
+            ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
             ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
 
       - name: Deploy to Kubernetes
@@ -52,7 +52,7 @@ jobs:
           echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 -d > /tmp/kubeconfig
           export KUBECONFIG=/tmp/kubeconfig
           kubectl set image deployment/mininotes \
-            mininotes=${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:${{ github.run_number }} \
+            mininotes=${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }} \
             -n mininotes
           kubectl rollout status deployment/mininotes -n mininotes --timeout=120s
           rm /tmp/kubeconfig
