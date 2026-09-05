@@ -32,6 +32,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: arn:aws:iam::257536659737:role/mininotes-dev-github-actions-oidc
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Login to ECR
