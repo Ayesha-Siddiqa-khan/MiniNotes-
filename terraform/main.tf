@@ -29,5 +29,5 @@ resource "random_id" "suffix" {
 }
 
 locals {
-  resource_prefix = (var.project_name == var.environment || endswith(var.project_name, "-dev")) ? var.project_name : "${var.project_name}-${var.environment}"
+  resource_prefix = lower((var.project_name == var.environment || endswith(var.project_name, "-dev")) ? var.project_name : "${var.project_name}-${var.environment}")
 }
