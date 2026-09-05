@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mininotes
+  namespace: mininotes
+spec:
+  selector:
+    app: mininotes
+  ports:
+    - port: 80
+      targetPort: 5000
+  type: ClusterIP

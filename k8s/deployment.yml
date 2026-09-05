@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mininotes
+  namespace: mininotes
+  labels:
+    app: mininotes
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mininotes
+  template:
+    metadata:
+      labels:
+        app: mininotes
+    spec:
+      containers:
+        - name: mininotes
+          image: ghcr.io/ayesha-siddiqa-khan/mininotes-:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: PORT
+              value: "5000"
+            - name: DB_PATH
+              value: "/app/data/notes.db"
+          volumeMounts:
+            - name: notes-data
+              mountPath: /app/data
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+      volumes:
+        - name: notes-data
+          emptyDir: {}
